@@ -5,6 +5,7 @@ import 'react-tabs/style/react-tabs.css';
 import UseMenu from '../../Hooks/UseMenu';
 import OrderTab from './OrderTab';
 import { useParams } from 'react-router-dom';
+import shopBanner from '../../assets/images/shop-banner.jpg';
 
 const Order = () => {
 
@@ -31,7 +32,7 @@ const Order = () => {
 
     return (
         <div className='mb-10 space-y-10'>
-            <Cover img='./assets/shop/banner2.jpg' title='OUR SHOP' subTitle='Would you like to try a dish?'></Cover>
+            <Cover img={shopBanner} title='OUR SHOP' subTitle='Would you like to try a dish?'></Cover>
 
             <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                 <TabList>

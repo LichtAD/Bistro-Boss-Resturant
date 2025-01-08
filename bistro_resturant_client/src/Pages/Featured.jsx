@@ -1,5 +1,6 @@
 import React from 'react';
 import SectionTitle from '../components/SectionTitle';
+import homeFeatured from '../assets/images/home-featured.jpg';
 
 const Featured = () => {
     return (
@@ -7,7 +8,7 @@ const Featured = () => {
             <SectionTitle heading='FROM OUR MENU' subHeading='---Check it out---'></SectionTitle>
             <div className='md:flex gap-10 justify-center items-center px-36 pb-20 pt-12'>
                 <div>
-                    <img src="./assets/home/featured.jpg" alt="" />
+                    <img src={homeFeatured} alt="" />
                 </div>
                 <div>
                     <p>March 20, 2023</p>
