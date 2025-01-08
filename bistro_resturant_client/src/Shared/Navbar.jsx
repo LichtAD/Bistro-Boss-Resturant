@@ -1,10 +1,13 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
 
     const links = <>
-        <li><a>Item 1</a></li>
-        <li>
+        <li><NavLink to='/'>Home</NavLink></li>
+        <li><NavLink to='/menu'>Menu</NavLink></li>
+        <li><NavLink to='/order/salad'>Order</NavLink></li>
+        {/* <li>
             <details>
                 <summary>Parent</summary>
                 <ul className="p-2">
@@ -12,12 +15,11 @@ const Navbar = () => {
                     <li><a>Submenu 2</a></li>
                 </ul>
             </details>
-        </li>
-        <li><a>Item 3</a></li>
+        </li> */}
     </>
 
     return (
-        <div className="navbar bg-black max-w-screen-xl mx-auto bg-opacity-30 fixed z-10">
+        <div className="navbar bg-black max-w-screen-xl mx-auto bg-opacity-10 backdrop-blur-md fixed z-10">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

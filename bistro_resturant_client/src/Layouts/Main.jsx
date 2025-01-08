@@ -9,10 +9,10 @@ const Main = () => {
             <div className='min-h-screen max-w-screen-xl mx-auto'>
                 <Navbar></Navbar>
                 <div className='pt-20'>
-                <Outlet></Outlet>
+                    <Outlet></Outlet>
                 </div>
+                <Footer></Footer>
             </div>
-            <Footer></Footer>
         </div>
     );
 };
