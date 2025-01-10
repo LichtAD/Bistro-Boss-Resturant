@@ -10,6 +10,7 @@ const Navbar = () => {
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/menu'>Menu</NavLink></li>
         <li><NavLink to='/order/salad'>Order</NavLink></li>
+        <li><NavLink to='/secret'>Secret</NavLink></li>
         {/* <li>
             <details>
                 <summary>Parent</summary>
@@ -52,13 +53,23 @@ const Navbar = () => {
                     {links}
                 </ul>
             </div>
-            <div className="navbar-end">
-                {/* <NavLink to='/login' className="btn">Login</NavLink> */}
-                <div>
+            <div className="navbar-end space-x-4">
+                {/* <div>
                     {
                         user && user?.email ?
                             <span>{user?.email} - {user?.displayName}</span>
                             : ''
+                    }
+                </div> */}
+                <div>
+                    {
+                        user && user?.photoURL ?
+                            <div className="avatar tooltip tooltip-bottom" data-tip={user?.displayName}>
+                                <div className="w-12 rounded-full border-2 border-black p-1 ring-offset-base-100 ring-offset-2">
+                                    <img src={user?.photoURL} />
+                                </div>
+                            </div>
+                            : 'image'
                     }
                 </div>
                 <div>
