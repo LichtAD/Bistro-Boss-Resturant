@@ -5,6 +5,8 @@ import Main from "../Layouts/Main";
 import Home from "../Pages/Home";
 import Menu from "../Pages/Menu/Menu";
 import Order from "../Pages/Order/Order";
+import Login from "../Pages/Login";
+import Registration from "../Pages/Registration";
 
 export const router = createBrowserRouter([
     {
@@ -23,6 +25,18 @@ export const router = createBrowserRouter([
             {
                 path: "/order/:category",
                 element: <Order></Order>,
+            },
+            {
+                path: "/login",
+                element: <Login></Login>,
+            },
+            {
+                path: "/login",
+                element: <Login></Login>,
+            },
+            {
+                path: "/registration",
+                element: <Registration></Registration>,
             },
         ],
     },

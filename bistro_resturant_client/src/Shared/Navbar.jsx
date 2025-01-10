@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../Provider/AuthProvider';
 
 const Navbar = () => {
+
+    const { user, logOut } = useContext(AuthContext);
 
     const links = <>
         <li><NavLink to='/'>Home</NavLink></li>
@@ -42,7 +45,7 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">BISTRO BOSS Restaurant</a>
+                <NavLink to='/' className="ml-2 btn btn-ghost text-xl">BISTRO BOSS Restaurant</NavLink>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -50,7 +53,21 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Button</a>
+                {/* <NavLink to='/login' className="btn">Login</NavLink> */}
+                <div>
+                    {
+                        user && user?.email ?
+                            <span>{user?.email} - {user?.displayName}</span>
+                            : ''
+                    }
+                </div>
+                <div>
+                    {
+                        user && user?.email ?
+                            <button onClick={logOut} className="btn bg-white border-none">Log-Out</button>
+                            : <NavLink to="/login" className="btn bg-white border-none">Login Now</NavLink>
+                    }
+                </div>
             </div>
         </div>
     );
