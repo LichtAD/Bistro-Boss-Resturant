@@ -47,7 +47,7 @@ const Registration = () => {
                         updateMyProfile({ displayName: data.name, photoURL: data.photo })
                             // navigate('/');
                             .then(() => {
-                                setUser({ ...newUser, displayName: name, photoURL: photo });
+                                setUser({ ...newUser, displayName: data.name, photoURL: data.photo });
                                 navigate('/');
                             })
                             .catch(err => {
@@ -62,8 +62,6 @@ const Registration = () => {
                     }
                 })
                 // end
-
-                form.reset();
             })
             .catch(err => {
                 const errorMessage = err.message;

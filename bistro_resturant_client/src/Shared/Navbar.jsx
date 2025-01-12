@@ -1,16 +1,27 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { AuthContext } from '../Provider/AuthProvider';
+import { IoCartSharp } from "react-icons/io5";
+import UseAuth from '../Hooks/UseAuth';
+import UseCart from '../Hooks/UseCart';
 
 const Navbar = () => {
 
-    const { user, logOut } = useContext(AuthContext);
+    // data ta load hcche, array ta astese
+    const [cart] = UseCart();
+
+    const { user, logOut } = UseAuth();
 
     const links = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/menu'>Menu</NavLink></li>
         <li><NavLink to='/order/salad'>Order</NavLink></li>
         <li><NavLink to='/secret'>Secret</NavLink></li>
+        {
+            user && <li><NavLink to='/dashboard/cart'>
+                <IoCartSharp size={20} />
+                <div className="badge badge-secondary">+{cart?.length || 0}</div>
+            </NavLink></li>
+        }
         {/* <li>
             <details>
                 <summary>Parent</summary>
@@ -54,22 +65,15 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end space-x-4">
-                {/* <div>
-                    {
-                        user && user?.email ?
-                            <span>{user?.email} - {user?.displayName}</span>
-                            : ''
-                    }
-                </div> */}
                 <div>
                     {
                         user && user?.photoURL ?
                             <div className="avatar tooltip tooltip-bottom" data-tip={user?.displayName}>
-                                <div className="w-12 rounded-full border-2 border-black p-1 ring-offset-base-100 ring-offset-2">
+                                <div className="w-12 rounded-full ring ring-black/30">
                                     <img src={user?.photoURL} />
                                 </div>
                             </div>
-                            : 'image'
+                            : ''
                     }
                 </div>
                 <div>

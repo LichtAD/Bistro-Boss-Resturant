@@ -9,12 +9,14 @@ import Login from "../Pages/Login";
 import Registration from "../Pages/Registration";
 import PrivateRoute from "./PrivateRoute";
 import Secret from "../Shared/Secret";
+import Dashboard from "../Layouts/Dashboard";
+import Cart from "../Pages/Dashboard/Cart";
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <Main></Main>,
-        errorElement: <p>There was an error</p>,
+        errorElement: <p>There was an error in main</p>,
         children: [
             {
                 path: "/",
@@ -45,6 +47,17 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <Secret></Secret>
                 </PrivateRoute>,
+            },
+        ],
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard></Dashboard>,
+        errorElement: <p>There was an error in dashboard</p>,
+        children: [
+            {
+                path: "cart",
+                element: <Cart></Cart>,
             },
         ],
     },

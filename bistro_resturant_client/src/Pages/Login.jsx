@@ -15,16 +15,17 @@ const Login = () => {
 
     const { logInUser, setUser } = useContext(AuthContext);
 
-    useEffect(() => {
-        loadCaptchaEnginge(6);
-    }, [])
-
     const location = useLocation();
     // console.log(location);
+    const from = location.state?.from?.pathname || '/';
 
     const navigate = useNavigate();
 
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        loadCaptchaEnginge(6);
+    }, [])
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -44,7 +45,8 @@ const Login = () => {
                     confirmButtonText: "OK"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        navigate(location?.state ? location.state : "/")
+                        // navigate(location?.state ? location.state : "/")
+                        navigate(from, { replace: true });
                     }
                 })
                 form.reset();
@@ -136,7 +138,8 @@ const Login = () => {
                         </div>
 
                         <div className="form-control mt-1">
-                            <button disabled={disabled} className="btn btn-primary">Login</button>
+                            {/* TODO: disabled button */}
+                            <button disabled={false} className="btn btn-primary">Login</button>
                         </div>
 
                         <div className='my-2'>
