@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
-import { IoLogoGoogle } from "react-icons/io";
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import Lottie from 'lottie-react';
@@ -10,9 +9,13 @@ import registerAnimation from '../assets/lottie/register.json';
 import { Helmet } from 'react-helmet-async';
 
 import { useForm } from "react-hook-form";
-import { AuthContext } from '../Provider/AuthProvider';
+import UseAxiosPublic from '../Hooks/UseAxiosPublic';
+import UseAuth from '../Hooks/UseAuth';
+import GoogleLogin from './GoogleLogin';
 
 const Registration = () => {
+
+    const axiosPublic = UseAxiosPublic();
 
     const navigate = useNavigate();
 
@@ -25,7 +28,7 @@ const Registration = () => {
         formState: { errors }
     } = useForm();
 
-    const { createNewUser, updateMyProfile, setUser } = useContext(AuthContext);
+    const { createNewUser, updateMyProfile, setUser } = UseAuth();
 
     const onSubmit = (data) => {
         console.log(data);
@@ -48,7 +51,15 @@ const Registration = () => {
                             // navigate('/');
                             .then(() => {
                                 setUser({ ...newUser, displayName: data.name, photoURL: data.photo });
-                                navigate('/');
+                                // ! create user entry in database
+                                const userInfo = { name: data.name, email: data.email, photo: data.photo };
+                                axiosPublic.post('/users', userInfo)
+                                    .then(res => {
+                                        if(res.data.insertedId) {
+                                            navigate('/');
+                                        }
+                                })
+                                // navigate('/');
                             })
                             .catch(err => {
                                 const errorMessage = err.message;
@@ -160,39 +171,8 @@ const Registration = () => {
                             <h1>Already have an account? <Link to={'/login'} className='text-primary link link-hover'>Login</Link></h1>
                         </div>
 
-                        <div className="text-center">
-                            <button
-                                onClick={async () => {
-                                    try {
-                                        const result = await signInWithGoogle(); // Wait for the login to complete
-                                        if (result) {
-                                            // Show success alert only after successful login
-                                            Swal.fire({
-                                                title: "Congratulations!",
-                                                text: "You have successfully logged in!",
-                                                icon: "success",
-                                                confirmButtonText: "OK",
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    navigate("/");
-                                                }
-                                            });
-                                        }
-                                    } catch (error) {
-                                        // Handle login failure if necessary
-                                        Swal.fire({
-                                            title: "Login Failed",
-                                            text: error.message || "An error occurred during login.",
-                                            icon: "error",
-                                            confirmButtonText: "Try Again",
-                                        });
-                                    }
-                                }}
-                                className="btn btn-primary btn-outline rounded-full"
-                            >
-                                <IoLogoGoogle size={20} /> Login with Google
-                            </button>
-                        </div>
+                        {/* google login */}
+                        <GoogleLogin></GoogleLogin>
 
                     </form>
                 </div>

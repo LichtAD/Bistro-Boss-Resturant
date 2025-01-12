@@ -6,6 +6,9 @@ import UseCart from '../Hooks/UseCart';
 
 const Dashboard = () => {
 
+    // TODO: get isAdmin value from database
+    const isAdmin = true;
+
     const [cart] = UseCart();
 
     return (
@@ -15,6 +18,7 @@ const Dashboard = () => {
             <div className='w-64 min-h-screen bg-orange-400'>
                 <h1 className='text-3xl font-bold text-center mt-5'>BISTRO BOSS</h1>
                 <h2 className='text-3xl font-bold text-center my-2'>Restaurant</h2>
+
                 <ul className="menu">
                     <li><NavLink to='/dashboard/userHome'><FaHome />User Home</NavLink></li>
                     <li><NavLink to='/dashboard/userHome'><FaCalendar />Reservation</NavLink></li>
@@ -23,6 +27,8 @@ const Dashboard = () => {
                     <li><NavLink to='/dashboard/addReview'><FaAd />add review</NavLink></li>
                     <li><NavLink to='/dashboard/myBooking'><FaList />my booking</NavLink></li>
                 </ul>
+
+                {/* shared navlinks */}
                 <hr className='my-5' />
                 <ul className="menu">
                     <li><NavLink to='/'><FaHome />Home</NavLink></li>

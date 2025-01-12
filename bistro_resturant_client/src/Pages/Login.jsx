@@ -10,6 +10,7 @@ import loginAnimation from '../assets/lottie/Login.json';
 import { Helmet } from 'react-helmet-async';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../Provider/AuthProvider';
+import GoogleLogin from './GoogleLogin';
 
 const Login = () => {
 
@@ -146,37 +147,8 @@ const Login = () => {
                             <h1>Don't have an account? <Link to={'/registration'} className='text-primary link link-hover'>Register</Link></h1>
                         </div>
 
-                        <div className="text-center">
-                            <button
-                                onClick={async () => {
-                                    try {
-                                        const result = await signInWithGoogle();
-                                        if (result) {
-                                            Swal.fire({
-                                                title: "Congratulations!",
-                                                text: "You have successfully logged in!",
-                                                icon: "success",
-                                                confirmButtonText: "OK",
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    navigate(location?.state ? location.state : "/");
-                                                }
-                                            });
-                                        }
-                                    } catch (error) {
-                                        Swal.fire({
-                                            title: "Login Failed",
-                                            text: error.message || "An error occurred during login.",
-                                            icon: "error",
-                                            confirmButtonText: "Try Again",
-                                        });
-                                    }
-                                }}
-                                className="btn btn-primary btn-outline rounded-full"
-                            >
-                                <IoLogoGoogle size={20} /> Login with Google
-                            </button>
-                        </div>
+                        {/* google login */}
+                        <GoogleLogin></GoogleLogin>
 
                     </form>
                 </div>
