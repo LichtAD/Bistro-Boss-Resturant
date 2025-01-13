@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+var jwt = require('jsonwebtoken');
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 5000;
@@ -32,6 +33,50 @@ async function run() {
         const cartCollection = database.collection("carts");
         const userCollection = database.collection("users");
 
+        // ! JWT auth related apis
+        app.post('/jwt', async (req, res) => {
+            const user = req.body;
+            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+            res.send({ token });
+        })
+
+        // ! middleware: verify jwt token
+        const verifyToken = (req, res, next) => {
+            console.log('inside verify token: ', req.headers.authorization);
+            console.log('------------------');
+
+            const authorization = req.headers.authorization;
+            if (!authorization) {
+                return res.status(401).send({ error: true, message: 'unauthorized access' });
+            }
+            // token verify korte hobe
+            const token = authorization.split(' ')[1];
+
+            // drkr nai
+            // if(!token) {
+            //     return res.status(401).send({ error: true, message: 'unauthorized access' });
+            // }
+
+            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+                if (err) {
+                    return res.status(401).send({ error: true, message: 'unauthorized access' });
+                }
+                req.decoded = decoded;
+                next();
+            })
+        }
+
+        // ! verify admin: use verify admin after verify token
+        const verifyAdmin = async (req, res, next) => {
+            const email = req.decoded.email;
+            const query = { email: email };
+            const user = await userCollection.findOne(query);
+            if (user?.role !== 'admin') {
+                return res.status(403).send({ error: true, message: 'forbidden access' });
+            }
+            next();
+        }
+
         // ! user related api
 
         // ! create user
@@ -49,6 +94,51 @@ async function run() {
             const result = await userCollection.insertOne(user);
             res.send(result);
         });
+
+        // ! read user
+        app.get('/users', verifyToken, verifyAdmin, async (req, res) => {
+            // console.log(req.headers.authorization);
+            const cursor = userCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // ! read admin user
+        app.get('/users/admin/:email', verifyToken, async (req, res) => {
+            const email = req.params.email;
+            if(req.decoded.email !== email) {
+                return res.status(403).send({ error: true, message: 'forbidden access' });
+            }
+
+            const query = { email: email };
+            const user = await userCollection.findOne(query);
+            let admin = false;
+            if(user?.role === 'admin') {
+                admin = true;
+            }
+            res.send({ admin });
+        })
+
+        // ! delete user
+        app.delete('/users/:id', verifyToken, verifyAdmin, async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await userCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        // ! update(patch) user to admin
+        app.patch('/users/admin/:id', verifyToken, verifyAdmin, async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    role: 'admin'
+                }
+            };
+            const result = await userCollection.updateOne(filter, updatedDoc);
+            res.send(result);
+        })
 
         // ! cart related api
 

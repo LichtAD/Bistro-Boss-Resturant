@@ -3,11 +3,13 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { FaCartShopping, FaRegMessage, FaShop, FaTableList } from 'react-icons/fa6';
 import { FaAd, FaCalendar, FaHistory, FaHome, FaList } from 'react-icons/fa';
 import UseCart from '../Hooks/UseCart';
+import UseAdmin from '../Hooks/UseAdmin';
 
 const Dashboard = () => {
 
-    // TODO: get isAdmin value from database
-    const isAdmin = true;
+    // ! get isAdmin value from database
+    // const isAdmin = true;
+    const [isAdmin] = UseAdmin();
 
     const [cart] = UseCart();
 
@@ -19,14 +21,24 @@ const Dashboard = () => {
                 <h1 className='text-3xl font-bold text-center mt-5'>BISTRO BOSS</h1>
                 <h2 className='text-3xl font-bold text-center my-2'>Restaurant</h2>
 
-                <ul className="menu">
-                    <li><NavLink to='/dashboard/userHome'><FaHome />User Home</NavLink></li>
-                    <li><NavLink to='/dashboard/userHome'><FaCalendar />Reservation</NavLink></li>
-                    <li><NavLink to='/dashboard/paymentHistory'><FaHistory />payment history</NavLink></li>
-                    <li><NavLink to='/dashboard/cart'><FaCartShopping />My Cart ({cart?.length || 0})</NavLink></li>
-                    <li><NavLink to='/dashboard/addReview'><FaAd />add review</NavLink></li>
-                    <li><NavLink to='/dashboard/myBooking'><FaList />my booking</NavLink></li>
-                </ul>
+                {
+                    isAdmin ? <ul className="menu">
+                        <li><NavLink to='/dashboard/userHome'><FaHome />Admin Home</NavLink></li>
+                        <li><NavLink to='/dashboard/userHome'><FaCalendar />Add Items</NavLink></li>
+                        <li><NavLink to='/dashboard/paymentHistory'><FaHistory />manage items</NavLink></li>
+                        {/* <li><NavLink to='/dashboard/cart'><FaCartShopping />Admin Cart ({cart?.length || 0})</NavLink></li> */}
+                        <li><NavLink to='/dashboard/addReview'><FaAd />Manage Bookings</NavLink></li>
+                        <li><NavLink to='/dashboard/allUsers'><FaList />All Users</NavLink></li>
+                    </ul>
+                        : <ul className="menu">
+                            <li><NavLink to='/dashboard/userHome'><FaHome />User Home</NavLink></li>
+                            <li><NavLink to='/dashboard/userHome'><FaCalendar />Reservation</NavLink></li>
+                            <li><NavLink to='/dashboard/paymentHistory'><FaHistory />Payment History</NavLink></li>
+                            <li><NavLink to='/dashboard/cart'><FaCartShopping />User Cart ({cart?.length || 0})</NavLink></li>
+                            <li><NavLink to='/dashboard/addReview'><FaAd />Add Review</NavLink></li>
+                            <li><NavLink to='/dashboard/myBooking'><FaList />My Booking</NavLink></li>
+                        </ul>
+                }
 
                 {/* shared navlinks */}
                 <hr className='my-5' />

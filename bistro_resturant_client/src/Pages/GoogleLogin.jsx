@@ -19,7 +19,7 @@ const GoogleLogin = () => {
                 const userInfo = { name: result.user?.displayName, email: result.user?.email, photo: result.user?.photoURL };
                 await axiosPublic.post('/users', userInfo)
                     .then(res => {
-                        console.log(res.data);
+                        // console.log(res.data);
                         // if (res.data.insertedId) {         // null hle swal show kre na
                         //     // Show success alert only after successful login
                         // }
