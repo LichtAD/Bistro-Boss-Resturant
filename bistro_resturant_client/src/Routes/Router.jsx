@@ -12,6 +12,10 @@ import Secret from "../Shared/Secret";
 import Dashboard from "../Layouts/Dashboard";
 import Cart from "../Pages/Dashboard/Cart";
 import AllUsers from "../Pages/Dashboard/Admin/AllUsers";
+import AddItems from "../Pages/Dashboard/Admin/AddItems";
+import AdminRoute from "./AdminRoute";
+import ManageItems from "../Pages/Dashboard/Admin/ManageItems";
+import UpdateItem from "../Pages/Dashboard/Admin/UpdateItem";
 
 export const router = createBrowserRouter([
     {
@@ -58,13 +62,30 @@ export const router = createBrowserRouter([
         </PrivateRoute>,
         errorElement: <p>There was an error in dashboard</p>,
         children: [
+            // normal user routes
             {
                 path: "cart",
                 element: <Cart></Cart>,
             },
+            // admin routes
+            {
+                path: "addItems",
+                // element: <AddItems></AddItems>,
+                element: <AdminRoute><AddItems></AddItems></AdminRoute>,
+            },
             {
                 path: "allUsers",
-                element: <AllUsers></AllUsers>,
+                // element: <AllUsers></AllUsers>,
+                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>,
+            },
+            {
+                path: "manageItems",    // 57 ta data show krbe
+                element: <ManageItems></ManageItems>,
+            },
+            {
+                path: "updateItem/:id",
+                element: <UpdateItem></UpdateItem>,
+                loader: ({ params }) => fetch(`http://localhost:5000/menu/${params.id}`)
             },
         ],
     },

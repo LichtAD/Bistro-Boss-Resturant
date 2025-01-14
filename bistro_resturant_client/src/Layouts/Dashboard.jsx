@@ -7,7 +7,7 @@ import UseAdmin from '../Hooks/UseAdmin';
 
 const Dashboard = () => {
 
-    // ! get isAdmin value from database
+    // ! get isAdmin value from database, check if user is admin
     // const isAdmin = true;
     const [isAdmin] = UseAdmin();
 
@@ -24,8 +24,8 @@ const Dashboard = () => {
                 {
                     isAdmin ? <ul className="menu">
                         <li><NavLink to='/dashboard/userHome'><FaHome />Admin Home</NavLink></li>
-                        <li><NavLink to='/dashboard/userHome'><FaCalendar />Add Items</NavLink></li>
-                        <li><NavLink to='/dashboard/paymentHistory'><FaHistory />manage items</NavLink></li>
+                        <li><NavLink to='/dashboard/addItems'><FaCalendar />Add Items</NavLink></li>
+                        <li><NavLink to='/dashboard/manageItems'><FaHistory />manage items</NavLink></li>
                         {/* <li><NavLink to='/dashboard/cart'><FaCartShopping />Admin Cart ({cart?.length || 0})</NavLink></li> */}
                         <li><NavLink to='/dashboard/addReview'><FaAd />Manage Bookings</NavLink></li>
                         <li><NavLink to='/dashboard/allUsers'><FaList />All Users</NavLink></li>

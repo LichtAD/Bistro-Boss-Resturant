@@ -3,6 +3,7 @@ import UseAuth from "./UseAuth";
 import UseAxiosSecure from "./UseAxiosSecure";
 
 
+// admin true or false eta return korbe and dashboard e dekhbo
 const UseAdmin = () => {
     const { user } = UseAuth();
     const axiosSecure = UseAxiosSecure();
@@ -16,7 +17,7 @@ const UseAdmin = () => {
         }
     })
 
-    return [isAdmin];
+    return [isAdmin, isAdminLoading];
 };
 
 export default UseAdmin;

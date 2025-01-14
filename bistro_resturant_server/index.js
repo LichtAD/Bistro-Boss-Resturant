@@ -40,6 +40,9 @@ async function run() {
             res.send({ token });
         })
 
+        // ! verify token -> valid user naki eta check kre
+        // ! verify admin -> admin naki eta check kre
+
         // ! middleware: verify jwt token
         const verifyToken = (req, res, next) => {
             console.log('inside verify token: ', req.headers.authorization);
@@ -173,6 +176,47 @@ async function run() {
         app.get('/menu', async (req, res) => {
             const cursor = menuCollection.find();
             const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // ! add menu
+        app.post('/menu', verifyToken, verifyAdmin, async (req, res) => {
+            const menu = req.body;
+            const result = await menuCollection.insertOne(menu);
+            res.send(result);
+        })
+
+        // ! delete menu
+        app.delete('/menu/:id', verifyToken, verifyAdmin, async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await menuCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        // ! get data for single specific menu
+        app.get('/menu/:id', async (req, res) => {
+            const id = req.params.id;
+            // const query = { _id: (id) };    // for old data
+            const query = { _id: new ObjectId(id) };
+            const result = await menuCollection.findOne(query);
+            res.send(result);
+        })
+
+        // ! update menu
+        app.patch('/menu/:id', verifyToken, verifyAdmin, async (req, res) => {
+            const id = req.params.id;
+            const menu = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    name: menu.name,
+                    price: menu.price,
+                    recipe: menu.recipe,
+                    image: menu.image
+                }
+            };
+            const result = await menuCollection.updateOne(filter, updatedDoc);
             res.send(result);
         })
 
