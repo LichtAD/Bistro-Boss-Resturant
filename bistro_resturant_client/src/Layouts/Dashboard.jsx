@@ -23,7 +23,7 @@ const Dashboard = () => {
 
                 {
                     isAdmin ? <ul className="menu">
-                        <li><NavLink to='/dashboard/userHome'><FaHome />Admin Home</NavLink></li>
+                        <li><NavLink to='/dashboard/adminHome'><FaHome />Admin Home</NavLink></li>
                         <li><NavLink to='/dashboard/addItems'><FaCalendar />Add Items</NavLink></li>
                         <li><NavLink to='/dashboard/manageItems'><FaHistory />manage items</NavLink></li>
                         {/* <li><NavLink to='/dashboard/cart'><FaCartShopping />Admin Cart ({cart?.length || 0})</NavLink></li> */}
@@ -32,7 +32,7 @@ const Dashboard = () => {
                     </ul>
                         : <ul className="menu">
                             <li><NavLink to='/dashboard/userHome'><FaHome />User Home</NavLink></li>
-                            <li><NavLink to='/dashboard/userHome'><FaCalendar />Reservation</NavLink></li>
+                            <li><NavLink to='/dashboard/payment'><FaCalendar />Reservation</NavLink></li>
                             <li><NavLink to='/dashboard/paymentHistory'><FaHistory />Payment History</NavLink></li>
                             <li><NavLink to='/dashboard/cart'><FaCartShopping />User Cart ({cart?.length || 0})</NavLink></li>
                             <li><NavLink to='/dashboard/addReview'><FaAd />Add Review</NavLink></li>

@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { IoCartSharp } from "react-icons/io5";
 import UseAuth from '../Hooks/UseAuth';
 import UseCart from '../Hooks/UseCart';
+import UseAdmin from '../Hooks/UseAdmin';
 
 const Navbar = () => {
 
@@ -11,13 +12,26 @@ const Navbar = () => {
 
     const { user, logOut } = UseAuth();
 
+    const [isAdmin] = UseAdmin();
+
     const links = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/menu'>Menu</NavLink></li>
         <li><NavLink to='/order/salad'>Order</NavLink></li>
         <li><NavLink to='/secret'>Secret</NavLink></li>
+        
         {
-            user && <li><NavLink to='/dashboard/cart'>
+            // first_condition ? second_condition ? 'double true' : 'one true' : 'false'
+        }
+        {
+            user && isAdmin && <li><NavLink to='/dashboard/adminHome'>Admin Home</NavLink></li>
+        }
+        {
+            user && !isAdmin && <li><NavLink to='/dashboard/userHome'>User Home</NavLink></li>
+        }
+
+        {
+            user && !isAdmin && <li><NavLink to='/dashboard/cart'>
                 <IoCartSharp size={20} />
                 <div className="badge badge-secondary">+{cart?.length || 0}</div>
             </NavLink></li>

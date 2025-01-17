@@ -5,11 +5,12 @@ import UseAxiosSecure from "./UseAxiosSecure";
 
 // admin true or false eta return korbe and dashboard e dekhbo
 const UseAdmin = () => {
-    const { user } = UseAuth();
+    const { user, loading } = UseAuth();
     const axiosSecure = UseAxiosSecure();
 
     const { data: isAdmin, isPending: isAdminLoading } = useQuery({
         queryKey: [user?.email, "isAdmin"],
+        enabled: !loading,
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/admin/${user?.email}`);
             console.log(res.data);

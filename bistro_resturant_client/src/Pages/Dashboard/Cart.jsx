@@ -3,6 +3,7 @@ import UseCart from '../../Hooks/UseCart';
 import SectionTitle from '../../components/SectionTitle';
 import Swal from 'sweetalert2';
 import UseAxiosSecure from '../../Hooks/UseAxiosSecure';
+import { NavLink } from 'react-router-dom';
 
 const Cart = () => {
 
@@ -46,7 +47,9 @@ const Cart = () => {
             <div className='flex justify-between items-center'>
                 <h1 className='text-3xl font-bold'>Total orders: {cart.length}</h1>
                 <h1 className='text-3xl font-bold'>Total Price: {totalPrice}</h1>
-                <button className='btn bg-orange-400 text-white'>Pay</button>
+                <NavLink to='/dashboard/payment'>
+                    <button disabled={cart.length === 0} className='btn bg-orange-400 text-white'>Pay</button>
+                </NavLink>
             </div>
             <div className="overflow-x-auto mt-4">
                 <table className="table">
